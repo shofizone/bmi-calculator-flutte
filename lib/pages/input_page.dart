@@ -1,10 +1,15 @@
 import 'package:bmi_calculator/pages/result_page.dart';
-import 'package:bmi_calculator/pages/widgets/icon_content.dart';
-import 'package:bmi_calculator/pages/widgets/reusable_card.dart';
+import 'package:bmi_calculator/styles/const_style.dart';
+import 'package:bmi_calculator/widgets/bottom_button.dart';
+import 'package:bmi_calculator/widgets/icon_content.dart';
+import 'package:bmi_calculator/widgets/reusable_card.dart';
+import 'package:bmi_calculator/widgets/round_icon_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'styles/const_style.dart';
 import 'package:flutter/cupertino.dart';
+
+import 'calculatorBrain.dart';
 
 enum Gender { Male, Female }
 
@@ -19,6 +24,9 @@ class _InputPageState extends State<InputPage> {
   int height = 180;
   int weight = 60;
   int age = 20;
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -175,43 +183,18 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: (){
-                Navigator.push(context, CupertinoPageRoute(builder: (context)=>ResultPage()));
-              },
-              child: Container(
-                color: bottomBarColor,
-                margin: EdgeInsets.only(top: 10),
-                width: double.infinity,
-                height: 80,
-                child: Center(
-                  child: Text("CALCULATE",),
-                ),
-              ),
-            ),
+             BottomButton(bottomBarColor: bottomBarColor,
+            text: "CALCULATE",
+            action: (){
+              CalculatorBrain cal = CalculatorBrain(weight,height);
+              Navigator.push(context, CupertinoPageRoute(builder: (context)=>ResultPage(cal)));
+            },),
           ],
         ));
   }
 }
 
 
-class RoundIconButton extends StatelessWidget {
-  final Color color;
-  final IconData iconData;
-  final Function onPressed;
-  RoundIconButton({this.color,this.iconData, @required this.onPressed});
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      elevation: 1.0,
-      shape: CircleBorder(),
-      constraints: BoxConstraints.tightFor(
-        height: 56,
-        width: 56,
-      ),
-      fillColor: color,
-      child: Icon(iconData,color: Colors.white,),
-      onPressed: onPressed,
-    );
-  }
-}
+
+
+
